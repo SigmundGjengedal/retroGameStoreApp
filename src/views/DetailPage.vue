@@ -14,7 +14,7 @@ import {
   IonSpinner,
 } from "@ionic/vue";
 
-import CampingSpotCard from "@/components/campingSpotCard.vue";
+import DetailedSalesCard from "@/components/DetailedSalesCard.vue";
 
 /* icon */
 import { chatboxOutline } from "ionicons/icons";
@@ -92,7 +92,7 @@ const addNewComment = () => {
     <!-- content på pagen -->
     <ion-content :fullscreen="true" v-if="data && !isLoadingCampSpot">
       <!-- hero image -->
-      <camping-spot-card :key="data.id" :spot="data" />
+      <detailed-sales-card :key="data.id" :spot="data" />
 
       <!--  <ion-card class="comments">
         <ion-list>

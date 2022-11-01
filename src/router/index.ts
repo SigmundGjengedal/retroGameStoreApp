@@ -3,7 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import DetailPage from "../views/DetailPage.vue";
 import AuthPage from "../views/AuthPage.vue";
-import NewCampspotPage from "../views/NewCampspotPage.vue";
+import NewSaleItem from "../views/NewSaleItem.vue";
 import { authService } from "@/services/directus.service";
 import { toastController } from "@ionic/vue";
 
@@ -59,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/new",
     name: "NewcampSpot",
-    component: NewCampspotPage,
+    component: NewSaleItem,
     beforeEnter: [authenticationRequiredRouteGuard],
   },
 ];

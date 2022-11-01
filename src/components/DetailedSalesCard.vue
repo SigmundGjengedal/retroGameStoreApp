@@ -9,7 +9,7 @@ import {
   IonCol,
   IonRow,
 } from "@ionic/vue";
-import CampingSpotImage from "./CampingSpotImage.vue";
+import ArticleImage from "./ArticleImage.vue";
 defineProps(["spot"]);
 </script>
 <template>
@@ -18,7 +18,7 @@ defineProps(["spot"]);
       <ion-row>
         <!-- v-for="id in spot.images" -->
         <ion-col size="6" v-for="id in spot.images" :key="id">
-          <CampingSpotImage :image-id="id" />
+          <ArticleImage :image-id="id" />
         </ion-col>
       </ion-row>
     </ion-grid>

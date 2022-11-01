@@ -144,7 +144,7 @@ const submitNewCampSpot = async () => {
       <ion-toolbar>
         <ion-buttons>
           <ion-back-button default-href="/"> </ion-back-button>
-          <ion-title>Ny teltplass 🏕</ion-title>
+          <ion-title>NY ANNONSE🕹</ion-title>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>

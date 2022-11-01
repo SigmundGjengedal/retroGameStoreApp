@@ -57,7 +57,7 @@ console.log(campingSpots);
   <ion-page>
     <ion-header :translucent="true">
       <ion-toolbar>
-        <ion-title>Baal 🏕</ion-title>
+        <ion-title>retro🕹</ion-title>
         <ion-buttons slot="start">
           <ion-button router-link="/new">ADD</ion-button>
         </ion-buttons>

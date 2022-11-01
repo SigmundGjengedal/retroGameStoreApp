@@ -9,12 +9,12 @@ import {
   IonCol,
   IonRow,
 } from "@ionic/vue";
-import CampingSpotImage from "./CampingSpotImage.vue";
+import ArticleImage from "./ArticleImage.vue";
 defineProps(["spot"]);
 </script>
 <template>
   <ion-card :router-link="'/detail/' + spot.id">
-    <CampingSpotImage :image-id="spot.images[0]" />
+    <ArticleImage :image-id="spot.images[0]" />
     <!-- hashtags -->
     <ion-card-header>
       <ion-chip v-for="hash in spot.hashtags" :key="hash">
