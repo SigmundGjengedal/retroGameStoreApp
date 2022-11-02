@@ -105,7 +105,7 @@ const submitNewCampSpot = async () => {
     // formData object for bildet som vi sender til database/directus
     const formData = new FormData();
 
-    // legger inn hvert bilde i objekttet
+    // legger inn hvert bilde i objektet
     blobFiles.forEach((file) => {
       formData.append("file", file);
     });
@@ -117,19 +117,19 @@ const submitNewCampSpot = async () => {
     // dersom bildet ble lastet opp
     if (fileUpload) {
       fileUpload.forEach((obj: object) => newSpot.value.imageIds.push(obj.id));
-      await directus.items("camp_spots").createOne({
+
+      await directus.items("sale_posts").createOne({
         title: newSpot.value.title,
         description: newSpot.value.description,
         hashtags: newSpot.value.tags,
-        comments: [],
         images: newSpot.value.imageIds,
       });
-      presentToast("Teltplassen ble lastet opp🙌", "bottom", "success");
+      presentToast("Annonsen ble lastet opp🙌", "bottom", "success");
     }
     isLoading.value = false;
   } catch (error) {
     presentToast(
-      "Noe gikk galt ved opplasting av teltplass!",
+      "Noe gikk galt ved opplasting av Annonsen!",
       "bottom",
       "warning"
     );

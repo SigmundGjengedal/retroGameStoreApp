@@ -5,23 +5,16 @@ import {
   IonCardHeader,
   IonCardContent,
   IonChip,
-  IonGrid,
-  IonCol,
-  IonRow,
+  IonSlides,
 } from "@ionic/vue";
 import ArticleImage from "./ArticleImage.vue";
 defineProps(["spot"]);
 </script>
 <template>
   <ion-card :router-link="'/detail/' + spot.id">
-    <ion-grid>
-      <ion-row>
-        <!-- v-for="id in spot.images" -->
-        <ion-col size="6" v-for="id in spot.images" :key="id">
-          <ArticleImage :image-id="id" />
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-slides>
+      <ArticleImage v-for="id in spot.images" :key="id" :image-id="id" />
+    </ion-slides>
 
     <!-- hashtags -->
     <ion-card-header>

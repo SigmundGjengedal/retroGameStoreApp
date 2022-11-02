@@ -12,6 +12,16 @@ import {
   IonIcon,
   onIonViewDidEnter,
   IonSpinner,
+  IonCard,
+  IonList,
+  IonListHeader,
+  IonLabel,
+  IonItem,
+  IonTextarea,
+  IonAvatar,
+  IonModal,
+  IonText,
+  IonInput,
 } from "@ionic/vue";
 
 import DetailedSalesCard from "@/components/DetailedSalesCard.vue";
@@ -26,11 +36,17 @@ const route = useRoute();
 const { id } = route.params;
 /* state */
 const isModalOpen = ref(false);
-const newCommentText = ref("");
 const isLoadingCampSpot = ref(true);
+/* comment data */
+const newComment = ref({
+  comment: "",
+  firstname: "",
+  sale_post_id: "",
+});
 
 /* dirctus data */
 const data = ref(null);
+var isLoading = ref(false);
 
 onIonViewDidEnter(() => {
   fetchCampingSpot();
@@ -58,21 +74,26 @@ const fetchCampingSpot = async () => {
   }
 };
 
-/* legge til en ny kommentar */
-const addNewComment = () => {
-  /*   data.value.comments.unshift({
-    id: 2,
-    username: "N/A",
-    comment: newCommentText.value,
-  });
-
-  isModalOpen.value = false;
-  newCommentText.value = ""; */
+const submitNewComment = async () => {
+  // logic to post the camp spot to the backend/Directus
+  try {
+    isLoading.value = true;
+    await directus.items("sale_posts_comments").createOne({
+      comment: newComment.value.comment,
+      firstname: newComment.value.firstname,
+      sale_post_id: id,
+    });
+    isLoading.value = false;
+  } catch (error) {
+    console.log(error);
+    isLoading.value = false;
+  }
 };
 </script>
 
 <template>
   <ion-page>
+    <!-- navbar -->
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -94,7 +115,8 @@ const addNewComment = () => {
       <!-- hero image -->
       <detailed-sales-card :key="data.id" :spot="data" />
 
-      <!--  <ion-card class="comments">
+      <!-- COMMENTS -->
+      <ion-card class="comments">
         <ion-list>
           <ion-list-header>
             <ion-label>
@@ -103,7 +125,6 @@ const addNewComment = () => {
             </ion-label>
           </ion-list-header>
 
-       
           <ion-item v-for="comment in data.comments" :key="comment.id">
             <ion-avatar slot="start">
               <img
@@ -112,17 +133,16 @@ const addNewComment = () => {
             </ion-avatar>
             <ion-label ion-text-wrap>
               <ion-text>
-                <b>{{ comment.username }}</b>
+                <p>her skal navn</p>
               </ion-text>
               <ion-text>
-                <p>{{ comment.comment }}</p>
+                <p>her skal kommentar fra d</p>
               </ion-text>
             </ion-label>
           </ion-item>
         </ion-list>
       </ion-card>
 
-  
       <ion-modal
         :is-open="isModalOpen"
         :initial-breakpoint="0.25"
@@ -131,13 +151,16 @@ const addNewComment = () => {
       >
         <ion-content>
           <ion-item lines="none">
+            <ion-label position="floating">Fornavn</ion-label>
+            <ion-input type="text" v-model="newComment.firstname" />
             <ion-label position="floating">Ny kommentar</ion-label>
-            <ion-textarea v-model="newCommentText"> </ion-textarea>
-            <ion-button @click="addNewComment">Legg til kommentar</ion-button>
+            <ion-textarea v-model="newComment.comment"> </ion-textarea>
+            <ion-button @click="submitNewComment"
+              >Legg til kommentar</ion-button
+            >
           </ion-item>
         </ion-content>
       </ion-modal>
-       -->
     </ion-content>
   </ion-page>
 </template>
