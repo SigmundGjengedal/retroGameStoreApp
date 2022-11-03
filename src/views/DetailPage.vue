@@ -106,6 +106,8 @@ const submitNewComment = async () => {
       sale_post_id: id,
     });
     isLoading.value = false;
+    fetchSalePosts();
+    isModalOpen.value=false;
   } catch (error) {
     console.log(error);
     isLoading.value = false;
@@ -167,7 +169,7 @@ const submitNewComment = async () => {
 
       <ion-modal
         :is-open="isModalOpen"
-        :initial-breakpoint="0.25"
+        :initial-breakpoint="0.5"
         :breakpoints="[0, 0.25, 0.5, 0.75]"
         @did-dismiss="isModalOpen = false"
       >
@@ -175,8 +177,9 @@ const submitNewComment = async () => {
           <ion-item lines="none">
             <ion-label position="floating">Fornavn</ion-label>
             <ion-input type="text" v-model="newComment.firstname" />
-            <ion-label position="floating">Ny kommentar</ion-label>
-            <ion-textarea v-model="newComment.comment"> </ion-textarea>
+            <ion-label position="floating">kommentar:</ion-label>
+            <ion-textarea rows=“15” class="custom-textarea" autoGrow="true" placeholder="..." v-model="newComment.comment"> </ion-textarea>
+           <br/>
             <ion-button @click="submitNewComment"
               >Legg til kommentar</ion-button
             >
@@ -193,5 +196,14 @@ const submitNewComment = async () => {
 }
 .comment ion-icon {
   background: black;
+}
+
+ion-textarea.custom-textarea {
+  --background: #373737;
+  --color: #fff;
+  --padding-end: 10px;
+  --padding-start: 10px;
+  --placeholder-color: #ddd;
+
 }
 </style>
