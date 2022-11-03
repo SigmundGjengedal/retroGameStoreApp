@@ -56,7 +56,7 @@ onIonViewDidEnter(() => {
 const fetchCampingSpot = async () => {
   const response = await directus.graphql.items(`
   query{
-    camp_spots_by_id(id:${id}) {
+    sale_posts_by_id(id:${id}) {
       id,
       title,
       description,
@@ -69,7 +69,7 @@ const fetchCampingSpot = async () => {
   }
   `);
   if (response.status === 200 && response.data) {
-    data.value = response.data.camp_spots_by_id; // skal fikses med typescript
+    data.value = response.data.sale_posts_by_id; // skal fikses med typescript
     isLoadingCampSpot.value = false;
   }
 };

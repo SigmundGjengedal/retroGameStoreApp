@@ -34,7 +34,7 @@ const refreshCampingSpotsView = async (event: RefresherCustomEvent) => {
 const fetchCampingSpots = async () => {
   const response = await directus.graphql.items<ICampSpotsResponse>(`
   query{
-    camp_spots {
+    sale_posts {
       id,
       title,
       description,
@@ -47,7 +47,7 @@ const fetchCampingSpots = async () => {
   }
   `);
   if (response.status === 200 && response.data) {
-    campingSpots.value = [...response.data.camp_spots];
+    campingSpots.value = [...response.data.sale_posts];
   }
 };
 console.log(campingSpots);
