@@ -3,11 +3,7 @@ import {
   IonCard,
   IonCardTitle,
   IonCardHeader,
-  IonCardContent,
   IonChip,
-  IonGrid,
-  IonCol,
-  IonRow,
 } from "@ionic/vue";
 import ArticleImage from "./ArticleImage.vue";
 defineProps(["spot"]);
