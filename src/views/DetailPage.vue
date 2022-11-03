@@ -36,7 +36,7 @@ const route = useRoute();
 const { id } = route.params;
 /* state */
 const isModalOpen = ref(false);
-const isLoadingCampSpot = ref(true);
+const isLoadingContent = ref(false);
 /* comment data */
 const newComment = ref({
   comment: "",
@@ -46,14 +46,16 @@ const newComment = ref({
 
 /* dirctus data */
 const data = ref(null);
+const data2 = ref(null);
 var isLoading = ref(false);
 
 onIonViewDidEnter(() => {
-  fetchCampingSpot();
+  fetchSalePosts();
 });
 
 /* query for en rad (spot) i tabellen. Id kommer fra route.params */
-const fetchCampingSpot = async () => {
+const fetchSalePosts = async () => {
+  isLoadingContent.value = true;
   const response = await directus.graphql.items(`
   query{
     sale_posts_by_id(id:${id}) {
@@ -62,17 +64,37 @@ const fetchCampingSpot = async () => {
       description,
       hashtags,
       images,
-      user_created{
-        first_name
+      comment_ids {
+        id
+        comment
+        firstname
+        date_created
       }
     }
   }
   `);
   if (response.status === 200 && response.data) {
     data.value = response.data.sale_posts_by_id; // skal fikses med typescript
-    isLoadingCampSpot.value = false;
+    isLoadingContent.value = false;
   }
 };
+// filter forsøk
+/*const fetchComments = async () => {
+  isLoadingContent.value = true;
+  const response = await directus.graphql.items(`
+  query{
+  sale_posts_comments(filter: {sale_post_id: {eq: "2"}}) {
+    comment
+  }
+}
+  `);
+  if (response.status === 200 && response.data) {
+    data2.value = response.data.sale_posts; // skal fikses med typescript
+    isLoadingContent.value = false;
+  }
+};
+console.log(data2)
+fetchComments()*/
 
 const submitNewComment = async () => {
   // logic to post the camp spot to the backend/Directus
@@ -89,6 +111,7 @@ const submitNewComment = async () => {
     isLoading.value = false;
   }
 };
+
 </script>
 
 <template>
@@ -99,7 +122,7 @@ const submitNewComment = async () => {
         <ion-buttons slot="start">
           <ion-back-button default-href="/"></ion-back-button>
         </ion-buttons>
-        <ion-title v-if="isLoadingCampSpot">
+        <ion-title v-if="isLoadingContent">
           <ion-spinner></ion-spinner
         ></ion-title>
         <ion-title v-if="data"> {{ data.title }} (id:{{ id }}) </ion-title>
@@ -111,32 +134,31 @@ const submitNewComment = async () => {
       </ion-toolbar>
     </ion-header>
     <!-- content på pagen -->
-    <ion-content :fullscreen="true" v-if="data && !isLoadingCampSpot">
+    <ion-content :fullscreen="true" v-if="data && !isLoadingContent">
       <!-- hero image -->
       <detailed-sales-card :key="data.id" :spot="data" />
 
       <!-- COMMENTS -->
-      <ion-card class="comments">
-        <ion-list>
+      <ion-card class="comments"  >
+        <ion-list lines="inset">
           <ion-list-header>
             <ion-label>
               Kommentarfelt
               <ion-icon :icon="chatboxOutline"></ion-icon>
             </ion-label>
           </ion-list-header>
-
-          <ion-item v-for="comment in data.comments" :key="comment.id">
+          <ion-item  v-for="comment in data.comment_ids" :key="comment" >
             <ion-avatar slot="start">
               <img
-                src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw=="
+                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw=="
               />
             </ion-avatar>
-            <ion-label ion-text-wrap>
+            <ion-label>
               <ion-text>
-                <p>her skal navn</p>
+                <p > {{ comment.firstname}}</p>
               </ion-text>
               <ion-text>
-                <p>her skal kommentar fra d</p>
+                <p>{{ comment.comment }}</p>
               </ion-text>
             </ion-label>
           </ion-item>
@@ -165,19 +187,7 @@ const submitNewComment = async () => {
   </ion-page>
 </template>
 <style scoped>
-.img-container {
-  display: flex;
-}
-.padding {
-  padding: 1em 0;
-}
-.circle-img {
-  width: 15em;
-  height: 15em;
-  border-radius: 50%;
-  margin: auto;
-  justify-content: center;
-}
+
 .comments {
   background: var(--ion-color-sigmunds);
 }

@@ -16,22 +16,22 @@ import {
   RefresherCustomEvent,
 } from "@ionic/vue";
 import { ref } from "vue";
-import homeCardVue from "@/components/homeCard.vue";
+import HomeCardVue from "@/components/HomeCard.vue";
 
 const campingSpots = ref<ICampSpot[]>([]);
 
 /* lifeycle method */
 onIonViewDidEnter(() => {
-  fetchCampingSpots();
+  fetchAllPosts();
 });
 
-const refreshCampingSpotsView = async (event: RefresherCustomEvent) => {
-  await fetchCampingSpots();
+const refreshHomePage = async (event: RefresherCustomEvent) => {
+  await fetchAllPosts();
   event.target.complete();
 };
 
 // BRUKES av både onViewDidEnter og ion-refreshener.
-const fetchCampingSpots = async () => {
+const fetchAllPosts = async () => {
   const response = await directus.graphql.items<ICampSpotsResponse>(`
   query{
     sale_posts {
@@ -69,7 +69,7 @@ console.log(campingSpots);
 
     <ion-content :fullscreen="true">
       <!--  pull to refresh -->
-      <ion-refresher slot="fixed" @ionRefresh="refreshCampingSpotsView($event)">
+      <ion-refresher slot="fixed" @ionRefresh="refreshHomePage($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 

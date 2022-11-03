@@ -31,7 +31,7 @@ import { Camera, CameraResultType } from "@capacitor/camera";
 import { ref } from "vue";
 const isModalOpen = ref(false);
 const newHashtagText = ref("");
-const newSpot = ref({
+const userUpload = ref({
   image: [],
   title: "",
   description: "",
@@ -46,10 +46,10 @@ var isLoading = ref(false);
 const addNewHashtag = () => {
   if (newHashtagText.value) {
     //Logic to avoid duplicate hashtags
-    if (newSpot.value.tags.includes(newHashtagText.value)) {
+    if (userUpload.value.tags.includes(newHashtagText.value)) {
       presentToast("Tagen finnes allerede", "middle", "warning");
     } else {
-      newSpot.value.tags.push(newHashtagText.value);
+      userUpload.value.tags.push(newHashtagText.value);
     }
   }
   newHashtagText.value = ""; // reset
@@ -65,7 +65,7 @@ const triggerCamera = async () => {
       resultType: CameraResultType.Uri,
     });
     if (photo.webPath) {
-      newSpot.value.image.push(photo.webPath);
+      userUpload.value.image.push(photo.webPath);
     }
   } catch (error) {
     presentToast("Bruker avbrøt bilde", "bottom", "warning");
@@ -76,17 +76,17 @@ const triggerCamera = async () => {
 console.log(isLoading.value);
 
 const changePicture = async () => {
-  newSpot.value.image = []; // reset
+  userUpload.value.image = []; // reset
   await triggerCamera();
 };
 
 // handler for DATA posting til DB
-const submitNewCampSpot = async () => {
-  if (!newSpot.value.image[0]) {
+const submitNewSaleItem = async () => {
+  if (!userUpload.value.image[0]) {
     presentToast("du må laste opp bilde", "bottom", "warning");
     return;
   }
-  if (!newSpot.value.description || !newSpot.value.title) {
+  if (!userUpload.value.description || !userUpload.value.title) {
     presentToast("du må fylle inn alle felt", "bottom", "warning");
     return;
   }
@@ -94,35 +94,33 @@ const submitNewCampSpot = async () => {
   try {
     isLoading.value = true;
 
+    // henter bilde(r) fra ref. Må resolve promise når  async brukes i map.
     let blobFiles = await Promise.all(
-      newSpot.value.image.map(async (img) => {
+      userUpload.value.image.map(async (img) => {
         const response = await fetch(img);
         const imageBlob = await response.blob();
         return imageBlob;
       })
     );
-
-    // formData object for bildet som vi sender til database/directus
+    // formData object som vi sender til database/directus
     const formData = new FormData();
-
     // legger inn hvert bilde i objektet
-    blobFiles.forEach((file) => {
-      formData.append("file", file);
-    });
-
-    console.log("formData:", formData);
-
+      blobFiles.forEach((file) => {
+        formData.append("file", file);
+      })
     const fileUpload = await directus.files.createOne(formData);
-
-    // dersom bildet ble lastet opp
+    // dersom bildet ble lastet opp.
     if (fileUpload) {
-      fileUpload.forEach((obj: object) => newSpot.value.imageIds.push(obj.id));
-
+      if(fileUpload.length > 0){
+        fileUpload.forEach((obj: object) => userUpload.value.imageIds.push(obj.id));
+      }else{
+        userUpload.value.imageIds.push(fileUpload.id)
+      }
       await directus.items("sale_posts").createOne({
-        title: newSpot.value.title,
-        description: newSpot.value.description,
-        hashtags: newSpot.value.tags,
-        images: newSpot.value.imageIds,
+        title: userUpload.value.title,
+        description: userUpload.value.description,
+        hashtags: userUpload.value.tags,
+        images: userUpload.value.imageIds,
       });
       presentToast("Annonsen ble lastet opp🙌", "bottom", "success");
     }
@@ -167,18 +165,18 @@ const submitNewCampSpot = async () => {
             <ion-icon slot="icon-only" :icon="trashOutline" color="danger">
             </ion-icon>
           </ion-button>
-          <img v-if="newSpot.image[0]" :src="newSpot.image[0]" />
+          <img v-if="userUpload.image[0]" :src="userUpload.image[0]" />
         </section>
 
         <!-- Title input -->
         <ion-item>
           <ion-label position="floating">Tittel</ion-label>
-          <ion-input type="text" v-model="newSpot.title" />
+          <ion-input type="text" v-model="userUpload.title" />
         </ion-item>
         <!-- Beskrivelse input -->
         <ion-item>
           <ion-label position="floating">Beskrivelse</ion-label>
-          <ion-textarea v-model="newSpot.description"></ion-textarea>
+          <ion-textarea v-model="userUpload.description"></ion-textarea>
         </ion-item>
 
         <!-- Tags input, med button. skal være array -->
@@ -192,10 +190,10 @@ const submitNewCampSpot = async () => {
         <!-- vise tags når de legges inn  -->
 
         <ion-item lines="none">
-          <ion-chip v-for="tag in newSpot.tags" :key="tag">{{ tag }}</ion-chip>
+          <ion-chip v-for="tag in userUpload.tags" :key="tag">{{ tag }}</ion-chip>
         </ion-item>
         <!-- submit button -->
-        <ion-button color="dark" @click="submitNewCampSpot">
+        <ion-button color="dark" @click="submitNewSaleItem">
           <ion-spinner v-if="isLoading" name="circles"></ion-spinner>
           <span v-else> Send inn teltplass</span>
         </ion-button>
