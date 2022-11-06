@@ -20,27 +20,30 @@ import HomeCardVue from "@/components/HomeCard.vue";
 import {presentToast} from "@/lib/utils";
 
 const saleItems = ref<ISaleItem[]>([]);
+const isLoggedInStatus = ref(false);
+
+
+
 
 /* lifeycle method */
-onIonViewDidEnter(() => {
+onIonViewDidEnter( () => {
   fetchAllPosts();
+  checkAuth();
 });
 
 const handleLogout = async () => {
-  try {
     await authService.logout();
     await presentToast(`Du er nå logget ut`, "bottom", "success");
-
-  } catch (error) {
-    await presentToast("Du er ikke logget inn", "bottom", "warning");
-  }
+    await checkAuth();
 };
 
 const refreshHomePage = async (event: RefresherCustomEvent) => {
   await fetchAllPosts();
   event.target.complete();
 };
-
+const checkAuth = async () => {
+  isLoggedInStatus.value = await authService.isLoggedIn()
+}
 // BRUKES av både onViewDidEnter og ion-refreshener.
 const fetchAllPosts = async () => {
   const response = await directus.graphql.items<ISaleItemsResponse>(`
@@ -72,7 +75,7 @@ console.log(saleItems);
         <ion-buttons slot="start">
           <ion-button router-link="/new">ADD</ion-button>
         </ion-buttons>
-        <ion-buttons slot="end">
+        <ion-buttons v-if="isLoggedInStatus" slot="end">
           <ion-button @click="handleLogout">LOGOUT</ion-button>
         </ion-buttons>
       </ion-toolbar>

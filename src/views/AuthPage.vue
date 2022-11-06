@@ -16,6 +16,8 @@ import {
   IonSegmentButton,
   IonIcon,
   IonList,
+  IonButtons,
+  IonBackButton,
   onIonViewDidEnter,
   onIonViewWillEnter,
 } from "@ionic/vue";
@@ -74,11 +76,14 @@ const register = async () => {
   <ion-page class="auth-container">
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button default-href="/"></ion-back-button>
+        </ion-buttons>
         <ion-title>retro🕹 </ion-title>
       </ion-toolbar>
     </ion-header>
     <img class="hero-image" src="/assets/icon/controller.png" />
-    <ion-content>
+    <ion-content >
       <!-- segment chooser -->
       <ion-segment value="Login">
         <ion-segment-button value="Login" @click="isUser = true">
