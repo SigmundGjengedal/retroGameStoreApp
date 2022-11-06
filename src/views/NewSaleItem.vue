@@ -17,6 +17,8 @@ import {
   IonSpinner,
   IonModal,
   IonIcon,
+  IonSlide,
+  IonSlides,
 } from "@ionic/vue";
 // icons
 import { image, add, trashOutline } from "ionicons/icons";
@@ -75,9 +77,11 @@ const triggerCamera = async () => {
 };
 console.log(isLoading.value);
 
-const changePicture = async () => {
-  userUpload.value.image = []; // reset
-  await triggerCamera();
+const deleteSelectedImg = async (img) => {
+  const index = userUpload.value.image.indexOf(img);
+  if (index > -1) { // dersom treff
+    userUpload.value.image.splice(index, 1); // fjerner ett element
+  }
 };
 
 // handler for DATA posting til DB
@@ -94,7 +98,8 @@ const submitNewSaleItem = async () => {
   try {
     isLoading.value = true;
 
-    // henter bilde(r) fra ref. Må resolve promise når  async brukes i map.
+    // henter bilde(r) fra ref. Manuell håndtering av filopplastning til Directus.
+    // Må resolve promise når  async brukes i map.
     let blobFiles = await Promise.all(
       userUpload.value.image.map(async (img) => {
         const response = await fetch(img);
@@ -151,21 +156,36 @@ const submitNewSaleItem = async () => {
       <ion-list>
         <!-- image upload -->
 
-        <ion-button @click="triggerCamera" class="image-picker" color="light">
-          Last opp fil eller bilde <ion-icon :icon="image"></ion-icon>
+        <ion-button @click="triggerCamera" class="image-picker" color="light" >
+          Last opp bilde <ion-icon :icon="image"></ion-icon>
         </ion-button>
 
         <!-- image preview -->
         <section>
-          <ion-button
-            @click="isModalOpen = true"
-            fill="default"
-            class="remove-image-preview"
-          >
-            <ion-icon slot="icon-only" :icon="trashOutline" color="danger">
-            </ion-icon>
-          </ion-button>
-          <img v-if="userUpload.image[0]" :src="userUpload.image[0]" />
+
+            <div  v-for="img in userUpload.image" :key="img" >
+              <ion-button
+                  @click="deleteSelectedImg(img)"
+                  fill="default"
+                  class="remove-image-preview"
+              >
+                <ion-icon slot="icon-only" :icon="trashOutline" color="danger">
+                </ion-icon>
+              </ion-button>
+              <img :src=img />
+            </div>
+
+
+<!--            <img  v-if="userUpload.image.length==1" :src=userUpload.image[0]  />
+            <ion-slides v-if="userUpload.image.length>1" >
+              <ion-slide  v-for="img in userUpload.image" :key="img"  >
+                <img :src=img  />
+              </ion-slide>
+            </ion-slides>-->
+
+
+
+
         </section>
 
         <!-- Title input -->
@@ -199,19 +219,6 @@ const submitNewSaleItem = async () => {
         </ion-button>
       </ion-list>
 
-      <!-- modal for å endre bilde -->
-      <ion-modal
-        :is-open="isModalOpen"
-        :initial-breakpoint="0.25"
-        :breakpoints="[0.5, 0.75]"
-        @did-dismiss="isModalOpen = false"
-      >
-        <ion-content>
-          <ion-item lines="none">
-            <ion-button @click="changePicture">Ta nytt bilde</ion-button>
-          </ion-item>
-        </ion-content>
-      </ion-modal>
     </ion-content>
   </ion-page>
 </template>
@@ -240,10 +247,6 @@ ion-button {
   width: 4em;
 }
 
-ion-modal ion-button {
-  margin: 2em;
-  height: 3em;
-}
 
 ion-spinner {
   margin: 0 auto;

@@ -1,4 +1,4 @@
-export interface ICampSpot {
+export interface ISaleItem {
   id: number;
   title: string;
   description: string;
@@ -9,17 +9,17 @@ export interface ICampSpot {
   };
 }
 
-export interface ICampSpotResponse {
-  camp_spots_by_id: ICampSpot;
+export interface ISingleItemResponse {
+  sale_posts_by_id: ISaleItem;
 }
 
-export interface ICampSpotsResponse {
-  camp_spots: ICampSpot[];
+export interface ISaleItemsResponse {
+  sale_items: ISaleItem[];
 }
 
-export interface INewCampSpot {
+export interface INewSaleItem {
   title: string;
   description: string;
   hashtags: string[];
-  image: string;
+  images: string[];
 }

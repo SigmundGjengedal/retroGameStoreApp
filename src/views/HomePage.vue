@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { directus } from "@/services/directus.service";
-import { ICampSpot, ICampSpotsResponse } from "@/models/CampSpotModels";
+import { ISaleItem, ISaleItemsResponse } from "@/models/SaleItemModels";
 import { authService } from "@/services/directus.service";
 import {
   IonContent,
@@ -18,7 +18,7 @@ import {
 import { ref } from "vue";
 import HomeCardVue from "@/components/HomeCard.vue";
 
-const campingSpots = ref<ICampSpot[]>([]);
+const saleItems = ref<ISaleItem[]>([]);
 
 /* lifeycle method */
 onIonViewDidEnter(() => {
@@ -32,7 +32,7 @@ const refreshHomePage = async (event: RefresherCustomEvent) => {
 
 // BRUKES av både onViewDidEnter og ion-refreshener.
 const fetchAllPosts = async () => {
-  const response = await directus.graphql.items<ICampSpotsResponse>(`
+  const response = await directus.graphql.items<ISaleItemsResponse>(`
   query{
     sale_posts {
       id,
@@ -47,10 +47,10 @@ const fetchAllPosts = async () => {
   }
   `);
   if (response.status === 200 && response.data) {
-    campingSpots.value = [...response.data.sale_posts];
+    saleItems.value = [...response.data.sale_posts];
   }
 };
-console.log(campingSpots);
+console.log(saleItems);
 </script>
 
 <template>
@@ -74,7 +74,7 @@ console.log(campingSpots);
       </ion-refresher>
 
       <!-- mapper ut card, med binding til key i objekt -->
-      <home-card-vue v-for="spot in campingSpots" :key="spot.id" :spot="spot" />
+      <home-card-vue v-for="spot in saleItems" :key="spot.id" :spot="spot" />
     </ion-content>
   </ion-page>
 </template>
