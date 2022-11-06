@@ -127,7 +127,7 @@ const submitNewComment = async () => {
         <ion-title v-if="isLoadingContent">
           <ion-spinner></ion-spinner
         ></ion-title>
-        <ion-title v-if="data"> {{ data.title }} (id:{{ id }}) </ion-title>
+        <ion-title v-if="data"> {{ data.title }}</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="isModalOpen = true">
             <ion-icon :icon="chatboxOutline"></ion-icon>
@@ -205,5 +205,8 @@ ion-textarea.custom-textarea {
   --padding-start: 10px;
   --placeholder-color: #ddd;
 
+}
+template {
+  font-family: 'Press Start 2P', sans-serif;
 }
 </style>

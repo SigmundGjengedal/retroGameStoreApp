@@ -74,7 +74,7 @@ const register = async () => {
   <ion-page class="auth-container">
     <ion-header>
       <ion-toolbar>
-        <ion-title>Retro Games 🎮 </ion-title>
+        <ion-title>retro🕹 </ion-title>
       </ion-toolbar>
     </ion-header>
     <img class="hero-image" src="/assets/icon/controller.png" />

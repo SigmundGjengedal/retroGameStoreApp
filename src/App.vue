@@ -16,3 +16,21 @@ export default defineComponent({
   }
 });
 </script>
+<style>
+@font-face {
+  font-family: "GameFont";
+  src: local("GameFont"),
+  url(./Fonts/PressStart2P-Regular.ttf) format("truetype");
+}
+
+ion-title, ion-label,ion-card-title {
+  font-family: "GameFont", Helvetica, Arial;
+  font-size: 16px;
+}
+ion-button {
+  font-family: "GameFont", Helvetica, Arial;
+}
+
+
+
+</style>

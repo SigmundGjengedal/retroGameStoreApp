@@ -79,4 +79,4 @@ console.log(saleItems);
   </ion-page>
 </template>
 
-<style></style>
+

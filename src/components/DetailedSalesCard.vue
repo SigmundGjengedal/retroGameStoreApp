@@ -28,3 +28,4 @@ defineProps(["spot"]);
     </ion-card-content>
   </ion-card>
 </template>
+
