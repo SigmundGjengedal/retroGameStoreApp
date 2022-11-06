@@ -127,7 +127,7 @@ const submitNewComment = async () => {
         <ion-title v-if="isLoadingContent">
           <ion-spinner></ion-spinner
         ></ion-title>
-        <ion-title v-if="data"> {{ data.title }}</ion-title>
+        <ion-title v-if="data">retro🕹</ion-title>
         <ion-buttons slot="end">
           <ion-button @click="isModalOpen = true">
             <ion-icon :icon="chatboxOutline"></ion-icon>
@@ -173,15 +173,15 @@ const submitNewComment = async () => {
         :breakpoints="[0, 0.25, 0.5, 0.75]"
         @did-dismiss="isModalOpen = false"
       >
-        <ion-content>
+        <ion-content class="comment-module">
           <ion-item lines="none">
             <ion-label position="floating">Fornavn</ion-label>
             <ion-input type="text" v-model="newComment.firstname" />
             <ion-label position="floating">kommentar:</ion-label>
-            <ion-textarea rows=“15” class="custom-textarea" autoGrow="true" placeholder="..." v-model="newComment.comment"> </ion-textarea>
+            <ion-textarea class="custom-textarea" autoGrow="true" placeholder="..." v-model="newComment.comment"> </ion-textarea>
            <br/>
             <ion-button @click="submitNewComment"
-              >Legg til kommentar</ion-button
+              >SEND</ion-button
             >
           </ion-item>
         </ion-content>
@@ -206,6 +206,13 @@ ion-textarea.custom-textarea {
   --placeholder-color: #ddd;
 
 }
+.comment-module{
+  --font-size:20px;
+}
+ion-item > ion-button{
+  height: 50px;
+}
+
 template {
   font-family: 'Press Start 2P', sans-serif;
 }
