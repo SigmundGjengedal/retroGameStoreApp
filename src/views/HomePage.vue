@@ -17,6 +17,7 @@ import {
 } from "@ionic/vue";
 import { ref } from "vue";
 import HomeCardVue from "@/components/HomeCard.vue";
+import {presentToast} from "@/lib/utils";
 
 const saleItems = ref<ISaleItem[]>([]);
 
@@ -24,6 +25,16 @@ const saleItems = ref<ISaleItem[]>([]);
 onIonViewDidEnter(() => {
   fetchAllPosts();
 });
+
+const handleLogout = async () => {
+  try {
+    await authService.logout();
+    await presentToast(`Du er nå logget ut`, "bottom", "success");
+
+  } catch (error) {
+    await presentToast("Du er ikke logget inn", "bottom", "warning");
+  }
+};
 
 const refreshHomePage = async (event: RefresherCustomEvent) => {
   await fetchAllPosts();
@@ -62,7 +73,7 @@ console.log(saleItems);
           <ion-button router-link="/new">ADD</ion-button>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-button @click="authService.logout">LOGOUT</ion-button>
+          <ion-button @click="handleLogout">LOGOUT</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
