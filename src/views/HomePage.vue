@@ -19,6 +19,9 @@ import {
   IonLabel,
   IonItem,
   IonSearchbar,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from "@ionic/vue";
 import { ref } from "vue";
 import HomeCardVue from "@/components/HomeCard.vue";
@@ -55,8 +58,9 @@ const fetchAllPosts = async () => {
     sale_posts {
       id,
       title,
-      hashtags,
       images,
+      platform,
+      price,
     }
   }
   `);
@@ -112,10 +116,16 @@ const fetchSearch = async () => {
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-
+      <ion-grid >
+        <ion-row >
+          <ion-col  v-for="spot in saleItems" :key="spot.id"  size="6">
+            <home-card-vue  :spot="spot" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
       <!-- mapper ut card, med binding til key i objekt -->
-      <home-card-vue v-for="spot in saleItems" :key="spot.id" :spot="spot" />
+
     </ion-content>
   </ion-page>
 </template>

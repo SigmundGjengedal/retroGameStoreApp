@@ -23,12 +23,15 @@ export default defineComponent({
   url(./Fonts/PressStart2P-Regular.ttf) format("truetype");
 }
 
-ion-title, ion-label,ion-card-title {
+ion-title, ion-label,ion-card-title,h4,h3,h2,h1 {
   font-family: "GameFont", Helvetica, Arial;
   font-size: 16px;
 }
 ion-button {
   font-family: "GameFont", Helvetica, Arial;
+}
+span{
+  font-weight: bold;
 }
 
 

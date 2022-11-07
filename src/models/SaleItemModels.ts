@@ -4,6 +4,7 @@ export interface ISaleItem {
   description: string;
   hashtags: string[];
   images: string[];
+  platform: string;
   user_created: {
     first_name: string;
   };

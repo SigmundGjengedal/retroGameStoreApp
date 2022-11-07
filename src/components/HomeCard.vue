@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {
   IonCard,
-  IonCardTitle,
   IonCardHeader,
-  IonChip,
+  IonCardSubtitle,
+  IonCardContent,
 } from "@ionic/vue";
 import ArticleImage from "./ArticleImage.vue";
+
 defineProps(["spot"]);
 </script>
 <template>
@@ -13,10 +14,16 @@ defineProps(["spot"]);
     <ArticleImage :image-id="spot.images[0]" />
     <!-- hashtags -->
     <ion-card-header>
-      <ion-chip v-for="hash in spot.hashtags" :key="hash">
-        #{{ hash }}
-      </ion-chip>
-      <ion-card-title>{{ spot.title }}</ion-card-title>
+      <ion-card-subtitle>{{ spot.title }}</ion-card-subtitle>
     </ion-card-header>
+    <ion-card-content>
+      <p>   💰 {{ spot.price }} kr</p>
+      <p>  🕹 {{ spot.platform }}</p>
+    </ion-card-content>
   </ion-card>
 </template>
+<style scoped>
+ion-card {
+  min-height: 240px;
+}
+</style>

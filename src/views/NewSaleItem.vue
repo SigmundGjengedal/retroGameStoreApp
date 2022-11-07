@@ -44,6 +44,7 @@ const userUpload = ref({
   imageIds: [],
   platform: "",
   price: "",
+  condition:"",
 });
 
 var isLoading = ref(false);
@@ -134,6 +135,9 @@ const submitNewSaleItem = async () => {
         description: userUpload.value.description,
         hashtags: userUpload.value.tags,
         images: userUpload.value.imageIds,
+        platform: userUpload.value.platform,
+        price: userUpload.value.price,
+        condition: userUpload.value.condition,
       });
       presentToast("Annonsen ble lastet opp🙌", "bottom", "success");
     }
@@ -233,10 +237,19 @@ const submitNewSaleItem = async () => {
             >
           </ion-select>
         </ion-item>
+        <ion-item>
+          <ion-select
+              placeholder="Tilstand"
+              v-model="userUpload.condition"
+          >
+            <ion-select-option value="ny">Ny</ion-select-option>
+            <ion-select-option value="brukt">Brukt</ion-select-option>
+          </ion-select>
+        </ion-item>
         <!-- Beskrivelse input -->
         <ion-item>
           <ion-label position="floating">Beskrivelse</ion-label>
-          <ion-textarea v-model="userUpload.description"></ion-textarea>
+          <ion-textarea autoGrow="true"  v-model="userUpload.description"></ion-textarea>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Pris</ion-label>
