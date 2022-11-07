@@ -31,22 +31,14 @@ const router = useRouter();
 /* state */
 const keepLoggedIn = ref(false);
 const isUser = ref(true);
-const segmentValue = ref("");
+
 
 const userDetails = ref({
   firstName: "",
   email: "",
   password: "",
 });
-/* onIonViewDidEnter(() => {
-  isUser.value = authService.isLoggedIn();
-  console.log(isUser.value);
-  if (isUser.value) {
-    router.replace("/home");
-  } 
 
-  // segmentValue.value = isUser.value ? "Login" : "Register";
-});*/
 const login = async () => {
   try {
     await authService.login(
@@ -71,6 +63,8 @@ const register = async () => {
     presentToast(`${error}`, "bottom", "warning");
   }
 };
+
+
 </script>
 <template>
   <ion-page class="auth-container">

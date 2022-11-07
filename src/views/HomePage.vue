@@ -14,27 +14,31 @@ import {
   IonRefresher,
   IonRefresherContent,
   RefresherCustomEvent,
+  IonList,
+  IonInput,
+  IonLabel,
+  IonItem,
+  IonSearchbar,
 } from "@ionic/vue";
 import { ref } from "vue";
 import HomeCardVue from "@/components/HomeCard.vue";
-import {presentToast} from "@/lib/utils";
+import { presentToast } from "@/lib/utils";
 
 const saleItems = ref<ISaleItem[]>([]);
+const searchTerm = ref("");
+const searchResult = ref(null);
 const isLoggedInStatus = ref(false);
 
-
-
-
 /* lifeycle method */
-onIonViewDidEnter( () => {
+onIonViewDidEnter(() => {
   fetchAllPosts();
   checkAuth();
 });
 
 const handleLogout = async () => {
-    await authService.logout();
-    await presentToast(`Du er nå logget ut`, "bottom", "success");
-    await checkAuth();
+  await authService.logout();
+  await presentToast(`Du er nå logget ut`, "bottom", "success");
+  await checkAuth();
 };
 
 const refreshHomePage = async (event: RefresherCustomEvent) => {
@@ -42,8 +46,8 @@ const refreshHomePage = async (event: RefresherCustomEvent) => {
   event.target.complete();
 };
 const checkAuth = async () => {
-  isLoggedInStatus.value = await authService.isLoggedIn()
-}
+  isLoggedInStatus.value = await authService.isLoggedIn();
+};
 // BRUKES av både onViewDidEnter og ion-refreshener.
 const fetchAllPosts = async () => {
   const response = await directus.graphql.items<ISaleItemsResponse>(`
@@ -51,12 +55,8 @@ const fetchAllPosts = async () => {
     sale_posts {
       id,
       title,
-      description,
       hashtags,
       images,
-      user_created{
-        first_name
-      }
     }
   }
   `);
@@ -64,7 +64,23 @@ const fetchAllPosts = async () => {
     saleItems.value = [...response.data.sale_posts];
   }
 };
-console.log(saleItems);
+
+// filter forsøk
+const fetchSearch = async () => {
+  const response = await directus.graphql.items(`
+ query {
+  sale_posts(filter:{title:{_contains: "${searchTerm.value}"}}) {
+      id,
+      title,
+      hashtags,
+      images,
+  }
+}
+  `);
+  if (response.status === 200 && response.data) {
+    saleItems.value = response.data.sale_posts; // skal fikses med typescript
+  }
+};
 </script>
 
 <template>
@@ -79,6 +95,15 @@ console.log(saleItems);
           <ion-button @click="handleLogout">LOGOUT</ion-button>
         </ion-buttons>
       </ion-toolbar>
+      <ion-toolbar class="search-bar">
+        <ion-searchbar
+            animated="true"
+            placeholder="skriv..."
+            v-model="searchTerm"
+        ></ion-searchbar>
+
+        <ion-button @click="fetchSearch">SØK</ion-button>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
@@ -87,10 +112,16 @@ console.log(saleItems);
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
+
+
       <!-- mapper ut card, med binding til key i objekt -->
       <home-card-vue v-for="spot in saleItems" :key="spot.id" :spot="spot" />
     </ion-content>
   </ion-page>
 </template>
-
-
+<style scoped>
+.search-bar ion-button{
+  display: flex;
+  flex-direction: column;
+}
+</style>

@@ -19,6 +19,8 @@ import {
   IonIcon,
   IonSlide,
   IonSlides,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/vue";
 // icons
 import { image, add, trashOutline } from "ionicons/icons";
@@ -31,6 +33,7 @@ import { Camera, CameraResultType } from "@capacitor/camera";
 
 // state
 import { ref } from "vue";
+
 const isModalOpen = ref(false);
 const newHashtagText = ref("");
 const userUpload = ref({
@@ -39,6 +42,8 @@ const userUpload = ref({
   description: "",
   tags: [],
   imageIds: [],
+  platform: "",
+  price: "",
 });
 
 var isLoading = ref(false);
@@ -79,7 +84,8 @@ console.log(isLoading.value);
 
 const deleteSelectedImg = async (img) => {
   const index = userUpload.value.image.indexOf(img);
-  if (index > -1) { // dersom treff
+  if (index > -1) {
+    // dersom treff
     userUpload.value.image.splice(index, 1); // fjerner ett element
   }
 };
@@ -110,16 +116,18 @@ const submitNewSaleItem = async () => {
     // formData object som vi sender til database/directus
     const formData = new FormData();
     // legger inn hvert bilde i objektet
-      blobFiles.forEach((file) => {
-        formData.append("file", file);
-      })
+    blobFiles.forEach((file) => {
+      formData.append("file", file);
+    });
     const fileUpload = await directus.files.createOne(formData);
     // dersom bildet ble lastet opp.
     if (fileUpload) {
-      if(fileUpload.length > 0){
-        fileUpload.forEach((obj: object) => userUpload.value.imageIds.push(obj.id));
-      }else{
-        userUpload.value.imageIds.push(fileUpload.id)
+      if (fileUpload.length > 0) {
+        fileUpload.forEach((obj: object) =>
+          userUpload.value.imageIds.push(obj.id)
+        );
+      } else {
+        userUpload.value.imageIds.push(fileUpload.id);
       }
       await directus.items("sale_posts").createOne({
         title: userUpload.value.title,
@@ -146,7 +154,7 @@ const submitNewSaleItem = async () => {
     <ion-header :translucent="true">
       <ion-toolbar>
         <ion-buttons>
-          <ion-back-button default-href="/"> </ion-back-button>
+          <ion-back-button default-href="/"></ion-back-button>
           <ion-title>NY ANNONSE🕹</ion-title>
         </ion-buttons>
       </ion-toolbar>
@@ -156,69 +164,106 @@ const submitNewSaleItem = async () => {
       <ion-list>
         <!-- image upload -->
 
-        <ion-button @click="triggerCamera" class="image-picker" color="light" >
-          Last opp bilde <ion-icon :icon="image"></ion-icon>
+        <ion-button @click="triggerCamera" class="image-picker" color="light">
+          Last opp bilde
+          <ion-icon :icon="image"></ion-icon>
         </ion-button>
 
         <!-- image preview -->
         <section>
+          <div v-for="img in userUpload.image" :key="img">
+            <ion-button
+              @click="deleteSelectedImg(img)"
+              fill="default"
+              class="remove-image-preview"
+            >
+              <ion-icon slot="icon-only" :icon="trashOutline" color="danger">
+              </ion-icon>
+            </ion-button>
+            <img :src="img" />
+          </div>
 
-            <div  v-for="img in userUpload.image" :key="img" >
-              <ion-button
-                  @click="deleteSelectedImg(img)"
-                  fill="default"
-                  class="remove-image-preview"
-              >
-                <ion-icon slot="icon-only" :icon="trashOutline" color="danger">
-                </ion-icon>
-              </ion-button>
-              <img :src=img />
-            </div>
-
-
-<!--            <img  v-if="userUpload.image.length==1" :src=userUpload.image[0]  />
-            <ion-slides v-if="userUpload.image.length>1" >
-              <ion-slide  v-for="img in userUpload.image" :key="img"  >
-                <img :src=img  />
-              </ion-slide>
-            </ion-slides>-->
-
-
-
-
+          <!--            <img  v-if="userUpload.image.length==1" :src=userUpload.image[0]  />
+                      <ion-slides v-if="userUpload.image.length>1" >
+                        <ion-slide  v-for="img in userUpload.image" :key="img"  >
+                          <img :src=img  />
+                        </ion-slide>
+                      </ion-slides>-->
         </section>
 
         <!-- Title input -->
         <ion-item>
-          <ion-label position="floating">Tittel</ion-label>
+          <ion-label position="floating">Overskrift</ion-label>
           <ion-input type="text" v-model="userUpload.title" />
+        </ion-item>
+        <ion-item>
+          <ion-select
+            placeholder="Velg plattform"
+            v-model="userUpload.platform"
+          >
+            <ion-select-option value="atari 2600">atari 2600</ion-select-option>
+            <ion-select-option value="atari 7800">atari 7800</ion-select-option>
+            <ion-select-option value="game boy">Game Boy</ion-select-option>
+            <ion-select-option value="game boy advance"
+              >Game Boy Advance</ion-select-option
+            >
+            <ion-select-option value="nes classic"
+              >NES classic</ion-select-option
+            >
+            <ion-select-option value="nes 8bit">NES 8bit</ion-select-option>
+            <ion-select-option value="nintendo 64"
+              >Nintendo 64</ion-select-option
+            >
+            <ion-select-option value="nintendo wii"
+              >nintendo wii</ion-select-option
+            >
+            <ion-select-option value="nintendo gamecube"
+              >nintendo gamecube</ion-select-option
+            >
+            <ion-select-option value="super nes">SUPER NES</ion-select-option>
+            <ion-select-option value="sega genesis"
+              >Sega Genesis</ion-select-option
+            >
+            <ion-select-option value="sega saturn"
+              >sega saturn</ion-select-option
+            >
+
+            <ion-select-option value="playstation classic"
+              >Playstation Classic</ion-select-option
+            >
+          </ion-select>
         </ion-item>
         <!-- Beskrivelse input -->
         <ion-item>
           <ion-label position="floating">Beskrivelse</ion-label>
           <ion-textarea v-model="userUpload.description"></ion-textarea>
         </ion-item>
-
+        <ion-item>
+          <ion-label position="floating">Pris</ion-label>
+          <ion-input type="text" v-model="userUpload.price" />
+        </ion-item>
         <!-- Tags input, med button. skal være array -->
         <ion-item class="tags-input">
           <ion-label position="floating">Hashtag</ion-label>
           <ion-input type="text" v-model="newHashtagText" />
-          <ion-button color="dark" slot="end" @click="addNewHashtag"
-            ><ion-icon :icon="add"></ion-icon
-          ></ion-button>
+          <ion-button color="dark" slot="end" @click="addNewHashtag">
+            <ion-icon :icon="add"></ion-icon>
+          </ion-button>
         </ion-item>
         <!-- vise tags når de legges inn  -->
 
         <ion-item lines="none">
-          <ion-chip v-for="tag in userUpload.tags" :key="tag">{{ tag }}</ion-chip>
+          <ion-chip v-for="tag in userUpload.tags" :key="tag"
+            >{{ tag }}
+          </ion-chip>
         </ion-item>
+
         <!-- submit button -->
         <ion-button color="dark" @click="submitNewSaleItem">
           <ion-spinner v-if="isLoading" name="circles"></ion-spinner>
-          <span v-else> Send inn teltplass</span>
+          <span v-else> LAST OPP ANNONSE</span>
         </ion-button>
       </ion-list>
-
     </ion-content>
   </ion-page>
 </template>
@@ -227,10 +272,12 @@ ion-content {
   --ion-background-color: #f4f4f4;
   display: flex;
 }
+
 ion-list {
   display: flex;
   flex-direction: column;
 }
+
 .image-picker {
   height: 20vh;
   margin: 10px auto;
@@ -238,6 +285,7 @@ ion-list {
   border-radius: 8px;
   font-size: medium;
 }
+
 ion-button {
   margin: 10px auto;
   width: 80vw;
@@ -246,7 +294,6 @@ ion-button {
 .tags-input ion-button {
   width: 4em;
 }
-
 
 ion-spinner {
   margin: 0 auto;

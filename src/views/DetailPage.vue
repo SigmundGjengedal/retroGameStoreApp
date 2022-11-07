@@ -46,7 +46,6 @@ const newComment = ref({
 
 /* dirctus data */
 const data = ref(null);
-const data2 = ref(null);
 var isLoading = ref(false);
 
 onIonViewDidEnter(() => {
@@ -78,23 +77,7 @@ const fetchSalePosts = async () => {
     isLoadingContent.value = false;
   }
 };
-// filter forsøk
-/*const fetchComments = async () => {
-  isLoadingContent.value = true;
-  const response = await directus.graphql.items(`
-  query{
-  sale_posts_comments(filter: {sale_post_id: {eq: "2"}}) {
-    comment
-  }
-}
-  `);
-  if (response.status === 200 && response.data) {
-    data2.value = response.data.sale_posts; // skal fikses med typescript
-    isLoadingContent.value = false;
-  }
-};
-console.log(data2)
-fetchComments()*/
+
 
 const submitNewComment = async () => {
   // logic to post the camp spot to the backend/Directus
