@@ -34,5 +34,10 @@ span{
   font-weight: bold;
 }
 
+ion-toolbar {
+  display: flex;
+  text-align: center;
+}
+
 
 </style>

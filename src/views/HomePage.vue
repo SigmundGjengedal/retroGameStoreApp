@@ -90,7 +90,7 @@ const fetchSearch = async () => {
 <template>
   <ion-page>
     <ion-header :translucent="true">
-      <ion-toolbar>
+      <ion-toolbar >
         <ion-title>retro🕹</ion-title>
         <ion-buttons slot="start">
           <ion-button router-link="/new">ADD</ion-button>
@@ -130,8 +130,9 @@ const fetchSearch = async () => {
   </ion-page>
 </template>
 <style scoped>
-.search-bar ion-button{
+.search-bar > ion-button{
   display: flex;
   flex-direction: column;
 }
+
 </style>
