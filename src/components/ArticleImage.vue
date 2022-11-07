@@ -11,3 +11,6 @@ defineProps<Props>();
     <img :src="`https://iw3vs8zi.directus.app/assets/${imageId}`" />
   </ion-slide>
 </template>
+<style scoped>
+</style>
+

@@ -134,5 +134,17 @@ const fetchSearch = async () => {
   display: flex;
   flex-direction: column;
 }
+ion-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: solid 1px #fff;
+  color: #fff;
+}
 
+ion-button {
+  --background:#ADDDD0;
+  border-radius:5px;
+}
 </style>

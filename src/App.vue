@@ -29,7 +29,10 @@ ion-title, ion-label,ion-card-title,h4,h3,h2,h1 {
 }
 ion-button {
   font-family: "GameFont", Helvetica, Arial;
+  background:#ADDDD0!important;
+  border-radius:5px;
 }
+
 span{
   font-weight: bold;
 }
@@ -37,6 +40,12 @@ span{
 ion-toolbar {
   display: flex;
   text-align: center;
+}
+ion-col{
+  background: #EEEEEE;
+}
+ion-toolbar{
+  --background: #EEEEEE;
 }
 
 

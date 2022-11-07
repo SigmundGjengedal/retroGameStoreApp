@@ -23,7 +23,5 @@ defineProps(["spot"]);
   </ion-card>
 </template>
 <style scoped>
-ion-card {
-  min-height: 240px;
-}
+
 </style>
