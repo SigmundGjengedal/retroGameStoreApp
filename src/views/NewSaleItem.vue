@@ -259,7 +259,7 @@ const submitNewSaleItem = async () => {
         <ion-item class="tags-input">
           <ion-label position="floating">Hashtag</ion-label>
           <ion-input type="text" v-model="newHashtagText" />
-          <ion-button color="dark" slot="end" @click="addNewHashtag">
+          <ion-button  slot="end" @click="addNewHashtag">
             <ion-icon :icon="add"></ion-icon>
           </ion-button>
         </ion-item>
@@ -272,7 +272,7 @@ const submitNewSaleItem = async () => {
         </ion-item>
 
         <!-- submit button -->
-        <ion-button color="dark" @click="submitNewSaleItem">
+        <ion-button  @click="submitNewSaleItem">
           <ion-spinner v-if="isLoading" name="circles"></ion-spinner>
           <span v-else> LAST OPP ANNONSE</span>
         </ion-button>
@@ -317,5 +317,9 @@ ion-spinner {
   position: absolute;
   right: 10px;
   width: 4em;
+}
+ion-button {
+  --background: #adddd0;
+  border-radius: 5px;
 }
 </style>

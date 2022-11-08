@@ -110,10 +110,10 @@ const register = async () => {
           <ion-checkbox slot="start" v-model="keepLoggedIn" />
           <ion-label> Keep me logged in</ion-label>
         </ion-item>
-        <ion-button v-if="isUser" @click="login" color="dark"
+        <ion-button v-if="isUser" @click="login"
           >Log in
         </ion-button>
-        <ion-button v-if="!isUser" @click="register" color="dark"
+        <ion-button v-if="!isUser" @click="register"
           >Registrer
         </ion-button>
       </ion-list>
@@ -139,5 +139,9 @@ ion-button {
 .hero-image {
   width: 70vw;
   align-self: center;
+}
+ion-button {
+  --background: #adddd0;
+  border-radius: 5px;
 }
 </style>

@@ -14,10 +14,6 @@ import {
   IonRefresher,
   IonRefresherContent,
   RefresherCustomEvent,
-  IonList,
-  IonInput,
-  IonLabel,
-  IonItem,
   IonSearchbar,
   IonGrid,
   IonRow,
@@ -90,7 +86,7 @@ const fetchSearch = async () => {
 <template>
   <ion-page>
     <ion-header :translucent="true">
-      <ion-toolbar >
+      <ion-toolbar>
         <ion-title>retro🕹</ion-title>
         <ion-buttons slot="start">
           <ion-button router-link="/new">ADD</ion-button>
@@ -101,9 +97,9 @@ const fetchSearch = async () => {
       </ion-toolbar>
       <ion-toolbar class="search-bar">
         <ion-searchbar
-            animated="true"
-            placeholder="skriv..."
-            v-model="searchTerm"
+          animated="true"
+          placeholder="skriv..."
+          v-model="searchTerm"
         ></ion-searchbar>
 
         <ion-button @click="fetchSearch">SØK</ion-button>
@@ -116,24 +112,24 @@ const fetchSearch = async () => {
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-      <ion-grid >
-        <ion-row >
-          <ion-col  v-for="spot in saleItems" :key="spot.id"  size="6">
-            <home-card-vue  :spot="spot" />
+      <ion-grid>
+        <ion-row>
+          <ion-col v-for="spot in saleItems" :key="spot.id" size="6">
+            <home-card-vue :spot="spot" />
           </ion-col>
         </ion-row>
       </ion-grid>
 
       <!-- mapper ut card, med binding til key i objekt -->
-
     </ion-content>
   </ion-page>
 </template>
 <style scoped>
-.search-bar > ion-button{
+.search-bar > ion-button {
   display: flex;
   flex-direction: column;
 }
+
 ion-col {
   display: flex;
   align-items: center;
@@ -144,7 +140,7 @@ ion-col {
 }
 
 ion-button {
-  --background:#ADDDD0;
-  border-radius:5px;
+  --background: #adddd0;
+  border-radius: 5px;
 }
 </style>
