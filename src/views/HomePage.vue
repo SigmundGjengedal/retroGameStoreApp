@@ -72,8 +72,9 @@ const fetchSearch = async () => {
   sale_posts(filter:{title:{_contains: "${searchTerm.value}"}}) {
       id,
       title,
-      hashtags,
       images,
+      platform,
+      price,
   }
 }
   `);
@@ -98,7 +99,7 @@ const fetchSearch = async () => {
       <ion-toolbar class="search-bar">
         <ion-searchbar
           animated="true"
-          placeholder="skriv..."
+          placeholder="søk tittel"
           v-model="searchTerm"
         ></ion-searchbar>
 

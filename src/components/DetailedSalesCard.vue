@@ -13,7 +13,7 @@ import ArticleImage from "./ArticleImage.vue";
 defineProps(["spot"]);
 </script>
 <template>
-  <ion-card color="secondary">
+  <ion-card >
     <ion-slides>
       <ArticleImage v-for="id in spot.images" :key="id" :image-id="id" />
     </ion-slides>
@@ -29,6 +29,7 @@ defineProps(["spot"]);
       <ion-card-title><span>Beskrivelse</span></ion-card-title>
       <ion-card-subtitle> <span>Plattform: </span> {{ spot.platform }}</ion-card-subtitle>
       <ion-card-subtitle><span>tilstand: </span> {{ spot.condition }}</ion-card-subtitle>
+      <ion-card-subtitle><span>Lokasjon: </span> {{ spot.city }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
 

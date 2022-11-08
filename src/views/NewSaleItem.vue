@@ -15,10 +15,7 @@ import {
   IonList,
   IonChip,
   IonSpinner,
-  IonModal,
   IonIcon,
-  IonSlide,
-  IonSlides,
   IonSelect,
   IonSelectOption,
 } from "@ionic/vue";
@@ -44,7 +41,8 @@ const userUpload = ref({
   imageIds: [],
   platform: "",
   price: "",
-  condition:"",
+  condition: "",
+  city:"",
 });
 
 var isLoading = ref(false);
@@ -138,6 +136,7 @@ const submitNewSaleItem = async () => {
         platform: userUpload.value.platform,
         price: userUpload.value.price,
         condition: userUpload.value.condition,
+        city: userUpload.value.city,
       });
       presentToast("Annonsen ble lastet opp🙌", "bottom", "success");
     }
@@ -186,13 +185,6 @@ const submitNewSaleItem = async () => {
             </ion-button>
             <img :src="img" />
           </div>
-
-          <!--            <img  v-if="userUpload.image.length==1" :src=userUpload.image[0]  />
-                      <ion-slides v-if="userUpload.image.length>1" >
-                        <ion-slide  v-for="img in userUpload.image" :key="img"  >
-                          <img :src=img  />
-                        </ion-slide>
-                      </ion-slides>-->
         </section>
 
         <!-- Title input -->
@@ -238,10 +230,7 @@ const submitNewSaleItem = async () => {
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-select
-              placeholder="Tilstand"
-              v-model="userUpload.condition"
-          >
+          <ion-select placeholder="Tilstand" v-model="userUpload.condition">
             <ion-select-option value="ny">Ny</ion-select-option>
             <ion-select-option value="brukt">Brukt</ion-select-option>
           </ion-select>
@@ -249,17 +238,24 @@ const submitNewSaleItem = async () => {
         <!-- Beskrivelse input -->
         <ion-item>
           <ion-label position="floating">Beskrivelse</ion-label>
-          <ion-textarea autoGrow="true"  v-model="userUpload.description"></ion-textarea>
+          <ion-textarea
+            autoGrow="true"
+            v-model="userUpload.description"
+          ></ion-textarea>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Pris</ion-label>
           <ion-input type="text" v-model="userUpload.price" />
         </ion-item>
+        <ion-item>
+          <ion-label position="floating">By og postnummer</ion-label>
+          <ion-input type="text" v-model="userUpload.city" />
+        </ion-item>
         <!-- Tags input, med button. skal være array -->
         <ion-item class="tags-input">
           <ion-label position="floating">Hashtag</ion-label>
           <ion-input type="text" v-model="newHashtagText" />
-          <ion-button  slot="end" @click="addNewHashtag">
+          <ion-button slot="end" @click="addNewHashtag">
             <ion-icon :icon="add"></ion-icon>
           </ion-button>
         </ion-item>
@@ -272,7 +268,7 @@ const submitNewSaleItem = async () => {
         </ion-item>
 
         <!-- submit button -->
-        <ion-button  @click="submitNewSaleItem">
+        <ion-button @click="submitNewSaleItem">
           <ion-spinner v-if="isLoading" name="circles"></ion-spinner>
           <span v-else> LAST OPP ANNONSE</span>
         </ion-button>

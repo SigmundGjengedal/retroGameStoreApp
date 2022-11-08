@@ -66,6 +66,7 @@ const fetchSalePosts = async () => {
       price,
       condition,
       platform,
+      city,
       comment_ids {
         id
         comment
