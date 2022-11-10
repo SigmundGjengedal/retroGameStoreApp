@@ -1,10 +1,9 @@
 export interface ISaleItem {
   id: number;
   title: string;
-  description: string;
-  hashtags: string[];
   images: string[];
   platform: string;
+  price:string;
   user_created: {
     first_name: string;
   };
@@ -23,4 +22,9 @@ export interface INewSaleItem {
   description: string;
   hashtags: string[];
   images: string[];
+  platform:string;
+  price:string;
+  condition:string;
+  city:string;
 }
+
