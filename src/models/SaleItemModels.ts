@@ -15,10 +15,11 @@ export interface ISaleItemsResponse {
 }
 
 export interface INewSaleItem {
+  image: string[];
   title: string;
   description: string;
-  hashtags: string[];
-  images: string[];
+  tags: string[];
+  imageIds: string[],
   platform:string;
   price:string;
   condition:string;
