@@ -4,9 +4,6 @@ export interface ISaleItem {
   images: string[];
   platform: string;
   price:string;
-  user_created: {
-    first_name: string;
-  };
 }
 
 export interface ISingleItemResponse {

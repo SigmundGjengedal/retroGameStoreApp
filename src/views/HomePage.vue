@@ -65,9 +65,10 @@ const fetchAllPosts = async () => {
   }
 };
 
-// filter forsøk
+// filter forsøk    s
 const fetchSearch = async () => {
-  const response = await directus.graphql.items(`
+  try {
+    const response = await directus.graphql.items<ISaleItemsResponse>(`
  query {
   sale_posts(filter:{title:{_contains: "${searchTerm.value}"}}) {
       id,
@@ -78,8 +79,13 @@ const fetchSearch = async () => {
   }
 }
   `);
-  if (response.status === 200 && response.data) {
-    saleItems.value = response.data.sale_posts; // skal fikses med typescript
+    console.log(response)
+    if (response.status === 200 && response.data) {
+      saleItems.value = response.data.sale_posts; // skal fikses med typescript
+    }
+  }
+  catch (error){
+    await presentToast("Du må angi søkeord","bottom", "warning")
   }
 };
 </script>
