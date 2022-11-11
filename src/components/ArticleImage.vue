@@ -12,5 +12,6 @@ defineProps<Props>();
   </ion-slide>
 </template>
 <style scoped>
+
 </style>
 

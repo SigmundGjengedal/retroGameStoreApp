@@ -138,16 +138,15 @@ const fetchSearch = async () => {
 }
 
 ion-col {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-align: center;
   border: solid 1px #fff;
   color: #fff;
+  background: #EEEEEE;
 }
 
 ion-button {
   --background: #adddd0;
   border-radius: 5px;
 }
+
 </style>

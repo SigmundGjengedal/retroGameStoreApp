@@ -27,6 +27,7 @@ ion-title, ion-label,ion-card-title,h4,h3,h2,h1 {
   font-family: "GameFont", Helvetica, Arial;
   font-size: 16px;
 }
+
 ion-button {
   font-family: "GameFont", Helvetica, Arial;
   background:#ADDDD0!important;
@@ -41,9 +42,7 @@ ion-toolbar {
   display: flex;
   text-align: center;
 }
-ion-col{
-  background: #EEEEEE;
-}
+
 ion-toolbar{
   --background: #EEEEEE;
 }

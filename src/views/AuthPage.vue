@@ -40,6 +40,8 @@ const userDetails = ref<IUserDetails>({
   password: "",
 });
 
+const passwordCheck = ref("");
+
 const login = async () => {
   try {
     await authService.login(
@@ -53,16 +55,21 @@ const login = async () => {
   }
 };
 const register = async () => {
-  try {
-    await authService.register(
-      userDetails.value.firstName,
-      userDetails.value.email,
-      userDetails.value.password
-    );
-    await login();
-  } catch (error) {
-    presentToast(`${error}`, "bottom", "warning");
+  if (userDetails.value.password === passwordCheck.value){
+    try {
+      await authService.register(
+          userDetails.value.firstName,
+          userDetails.value.email,
+          userDetails.value.password
+      );
+      await login();
+    } catch (error) {
+      presentToast(`${error}`, "bottom", "warning");
+    }
+  }else{
+    await presentToast("Passordene må være like","bottom","warning");
   }
+
 };
 
 
@@ -101,11 +108,15 @@ const register = async () => {
             type="email"
             v-model="userDetails.email"
           />
-          <ion-note slot="helper">Skriv en gyldig email</ion-note>
+
         </ion-item>
         <ion-item>
           <ion-label class="label-mild" position="floating">Passord</ion-label>
           <ion-input type="password" v-model="userDetails.password" />
+        </ion-item>
+        <ion-item  v-if="!isUser" >
+          <ion-label class="label-mild" position="floating">Bekreft Passord</ion-label>
+          <ion-input type="password" v-model="passwordCheck" />
         </ion-item>
         <ion-button v-if="isUser" @click="login"
           >Log in
