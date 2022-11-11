@@ -30,10 +30,11 @@ import { Camera, CameraResultType } from "@capacitor/camera";
 
 // state
 import { ref } from "vue";
+import {INewSaleItem} from "@/models/SaleItemModels";
 
 const isModalOpen = ref(false);
 const newHashtagText = ref("");
-const userUpload = ref({
+const userUpload = ref<INewSaleItem>({
   image: [],
   title: "",
   description: "",
@@ -95,7 +96,13 @@ const submitNewSaleItem = async () => {
     presentToast("du må laste opp bilde", "bottom", "warning");
     return;
   }
-  if (!userUpload.value.description || !userUpload.value.title) {
+  if (!userUpload.value.title
+      || !userUpload.value.description
+      || !userUpload.value.price
+      || !userUpload.value.city
+      || !userUpload.value.condition
+      || !userUpload.value.platform
+  ) {
     presentToast("du må fylle inn alle felt", "bottom", "warning");
     return;
   }
@@ -189,12 +196,12 @@ const submitNewSaleItem = async () => {
 
         <!-- Title input -->
         <ion-item>
-          <ion-label position="floating">Overskrift</ion-label>
+          <ion-label position="floating">Overskrift *</ion-label>
           <ion-input type="text" v-model="userUpload.title" />
         </ion-item>
         <ion-item>
           <ion-select
-            placeholder="Velg plattform"
+            placeholder="Velg plattform *"
             v-model="userUpload.platform"
           >
             <ion-select-option value="atari 2600">atari 2600</ion-select-option>
@@ -230,25 +237,25 @@ const submitNewSaleItem = async () => {
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-select placeholder="Tilstand" v-model="userUpload.condition">
+          <ion-select placeholder="Tilstand *" v-model="userUpload.condition">
             <ion-select-option value="ny">Ny</ion-select-option>
             <ion-select-option value="brukt">Brukt</ion-select-option>
           </ion-select>
         </ion-item>
         <!-- Beskrivelse input -->
         <ion-item>
-          <ion-label position="floating">Beskrivelse</ion-label>
+          <ion-label position="floating">Beskrivelse *</ion-label>
           <ion-textarea
             autoGrow="true"
             v-model="userUpload.description"
           ></ion-textarea>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Pris</ion-label>
-          <ion-input type="text" v-model="userUpload.price" />
+          <ion-label position="floating">Pris *</ion-label>
+          <ion-input type="number" v-model="userUpload.price" />
         </ion-item>
         <ion-item>
-          <ion-label position="floating">By og postnummer</ion-label>
+          <ion-label position="floating">By og postnummer *</ion-label>
           <ion-input type="text" v-model="userUpload.city" />
         </ion-item>
         <!-- Tags input, med button. skal være array -->

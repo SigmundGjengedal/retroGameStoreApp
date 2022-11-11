@@ -1,17 +1,9 @@
 export interface ISaleItem {
   id: number;
   title: string;
-  description: string;
-  hashtags: string[];
   images: string[];
   platform: string;
-  user_created: {
-    first_name: string;
-  };
-}
-
-export interface ISingleItemResponse {
-  sale_posts_by_id: ISaleItem;
+  price:string;
 }
 
 export interface ISaleItemsResponse {
@@ -19,8 +11,19 @@ export interface ISaleItemsResponse {
 }
 
 export interface INewSaleItem {
+  image: string[];
   title: string;
   description: string;
-  hashtags: string[];
-  images: string[];
+  tags: string[];
+  imageIds: string[],
+  platform:string;
+  price:string;
+  condition:string;
+  city:string;
 }
+export interface IUserDetails {
+  firstName: string;
+  email: string;
+  password: string;
+}
+
