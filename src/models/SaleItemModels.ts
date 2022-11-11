@@ -6,10 +6,6 @@ export interface ISaleItem {
   price:string;
 }
 
-export interface ISingleItemResponse {
-  sale_posts_by_id: ISaleItem;
-}
-
 export interface ISaleItemsResponse {
   sale_items: ISaleItem[];
 }
@@ -24,5 +20,10 @@ export interface INewSaleItem {
   price:string;
   condition:string;
   city:string;
+}
+export interface IUserDetails {
+  firstName: string;
+  email: string;
+  password: string;
 }
 

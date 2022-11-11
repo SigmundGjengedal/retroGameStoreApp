@@ -20,6 +20,8 @@ import {
   IonBackButton,
   onIonViewDidEnter,
   onIonViewWillEnter,
+    IonNote,
+
 } from "@ionic/vue";
 /* utils */
 import { ref } from "vue";
@@ -27,13 +29,12 @@ import { authService } from "../services/directus.service";
 /* router */
 import { useRouter } from "vue-router";
 import { presentToast } from "../lib/utils";
+import {IUserDetails} from "@/models/SaleItemModels";
 const router = useRouter();
 /* state */
-const keepLoggedIn = ref(false);
 const isUser = ref(true);
 
-
-const userDetails = ref({
+const userDetails = ref<IUserDetails>({
   firstName: "",
   email: "",
   password: "",
@@ -84,7 +85,7 @@ const register = async () => {
           <ion-label>Login</ion-label>
         </ion-segment-button>
         <ion-segment-button value="Register" @click="isUser = false">
-          <ion-label>Register</ion-label>
+          <ion-label>Lag konto</ion-label>
         </ion-segment-button>
       </ion-segment>
       <!-- login -->
@@ -97,18 +98,14 @@ const register = async () => {
         <ion-item>
           <ion-label class="label-mild" position="floating">Email</ion-label>
           <ion-input
-            type="text"
-            placeholder="email"
+            type="email"
             v-model="userDetails.email"
           />
+          <ion-note slot="helper">Skriv en gyldig email</ion-note>
         </ion-item>
         <ion-item>
           <ion-label class="label-mild" position="floating">Passord</ion-label>
-          <ion-input type="text" v-model="userDetails.password" />
-        </ion-item>
-        <ion-item>
-          <ion-checkbox slot="start" v-model="keepLoggedIn" />
-          <ion-label> Keep me logged in</ion-label>
+          <ion-input type="password" v-model="userDetails.password" />
         </ion-item>
         <ion-button v-if="isUser" @click="login"
           >Log in
