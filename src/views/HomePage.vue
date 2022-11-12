@@ -69,8 +69,11 @@ const fetchSearch = async () => {
   try {
     const response = await directus.graphql.items<ISaleItemsResponse>(`
  query {
-  sale_posts(filter:{ _or: [{title: { _contains: "${searchTerm.value}"} },
-   { platform: { _contains: "${searchTerm.value}"} }] }) {
+  sale_posts(filter:{ _or: [
+  {title: { _contains: "${searchTerm.value}"} },
+   { platform: { _contains: "${searchTerm.value}"} }
+   ]
+   }) {
       id,
       title,
       images,
@@ -108,7 +111,7 @@ const fetchSearch = async () => {
       <ion-toolbar class="search-bar">
         <ion-searchbar
           animated="true"
-          placeholder="søk tittel"
+          placeholder="søk tittel eller plattform"
           v-model="searchTerm"
         ></ion-searchbar>
 
