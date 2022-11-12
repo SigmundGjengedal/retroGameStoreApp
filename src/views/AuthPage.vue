@@ -6,10 +6,8 @@ import {
   IonContent,
   IonToolbar,
   IonTitle,
-  IonCard,
   IonButton,
   IonInput,
-  IonCheckbox,
   IonItem,
   IonLabel,
   IonSegment,
@@ -18,11 +16,8 @@ import {
   IonList,
   IonButtons,
   IonBackButton,
-  onIonViewDidEnter,
-  onIonViewWillEnter,
-    IonNote,
-
 } from "@ionic/vue";
+import { eye, eyeOff } from "ionicons/icons";
 /* utils */
 import { ref } from "vue";
 import { authService } from "../services/directus.service";
@@ -33,6 +28,7 @@ import {IUserDetails} from "@/models/SaleItemModels";
 const router = useRouter();
 /* state */
 const isUser = ref(true);
+const showPassword = ref(false);
 
 const userDetails = ref<IUserDetails>({
   firstName: "",
@@ -55,6 +51,10 @@ const login = async () => {
   }
 };
 const register = async () => {
+  if (!userDetails.value.firstName || userDetails.value.firstName.length<2) {
+    await presentToast("Du må oppgi fornavn", "bottom", "warning");
+    return;
+  }
   if (userDetails.value.password === passwordCheck.value){
     try {
       await authService.register(
@@ -110,9 +110,14 @@ const register = async () => {
           />
 
         </ion-item>
+        <!-- passord-->
         <ion-item>
           <ion-label class="label-mild" position="floating">Passord</ion-label>
-          <ion-input type="password" v-model="userDetails.password" />
+          <ion-input  v-if="showPassword"  type="text" v-model="userDetails.password" />
+          <ion-input v-else type="password" v-model="userDetails.password" />
+          <ion-icon v-if="showPassword"  @click="showPassword = !showPassword" slot="end" :icon="eye"></ion-icon>
+          <ion-icon v-else @click="showPassword = !showPassword" slot="end" :icon="eyeOff"></ion-icon>
+
         </ion-item>
         <ion-item  v-if="!isUser" >
           <ion-label class="label-mild" position="floating">Bekreft Passord</ion-label>
