@@ -157,7 +157,7 @@ ion-button {
   height: 30vh;
   align-self: center;
   background: url(whitenoise.png);
-  animation: whitenoise .1s steps(12) infinite;
+  animation: whitenoise .2s steps(3) infinite;
 }
 
 .login-hero img {
