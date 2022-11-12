@@ -70,8 +70,8 @@ const fetchSearch = async () => {
     const response = await directus.graphql.items<ISaleItemsResponse>(`
  query {
   sale_posts(filter:{ _or: [
-  {title: { _contains: "${searchTerm.value}"} },
-   { platform: { _contains: "${searchTerm.value}"} }
+      {title: { _contains: "${searchTerm.value}"} },
+      {platform: { _contains: "${searchTerm.value}"} }
    ]
    }) {
       id,
@@ -85,7 +85,7 @@ const fetchSearch = async () => {
   `);
     // Gir beskjed dersom ingen treff
     if (response.status === 200 && response.data.sale_posts[0]) {
-      saleItems.value = response.data.sale_posts; // skal fikses med typescript
+      saleItems.value = response.data.sale_posts;
     } else{
       await presentToast(`ingen treff på ${searchTerm.value}`,"bottom", "warning")
     }

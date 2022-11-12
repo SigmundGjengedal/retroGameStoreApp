@@ -84,7 +84,9 @@ const register = async () => {
         <ion-title>retro🕹 </ion-title>
       </ion-toolbar>
     </ion-header>
-    <img class="hero-image" src="/assets/icon/controller.png" />
+    <div class="login-hero">
+      <img  src="/assets/icon/controller.png" />
+    </div>
     <ion-content >
       <!-- segment chooser -->
       <ion-segment value="Login">
@@ -149,12 +151,31 @@ ion-button {
 .label-mild {
   --color: #8a8a8a !important;
 }
-.hero-image {
-  width: 70vw;
+.login-hero {
+  display: flex;
+  width: 100vw;
+  height: 30vh;
   align-self: center;
+  background: url(whitenoise.png);
+  animation: whitenoise .1s steps(12) infinite;
 }
+
+.login-hero img {
+  width: 50vw;
+  margin: auto;
+}
+
 ion-button {
   --background: #adddd0;
   border-radius: 5px;
+}
+
+@keyframes whitenoise {
+  0%{
+    background-position: 0 0;
+  }
+  100%{
+    background-position: 100% 100%;
+  }
 }
 </style>
