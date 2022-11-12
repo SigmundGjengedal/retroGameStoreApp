@@ -69,7 +69,8 @@ const fetchSearch = async () => {
   try {
     const response = await directus.graphql.items<ISaleItemsResponse>(`
  query {
-  sale_posts(filter:{title:{_contains: "${searchTerm.value}"}}) {
+  sale_posts(filter:{ _or: [{title: { _contains: "${searchTerm.value}"} },
+   { platform: { _contains: "${searchTerm.value}"} }] }) {
       id,
       title,
       images,
@@ -77,6 +78,7 @@ const fetchSearch = async () => {
       price,
   }
 }
+
   `);
     // Gir beskjed dersom ingen treff
     if (response.status === 200 && response.data.sale_posts[0]) {
