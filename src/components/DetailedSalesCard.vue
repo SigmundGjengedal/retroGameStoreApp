@@ -27,9 +27,9 @@ defineProps(["spot"]);
       <h5>{{ spot.price }} NOK</h5>
       <br/>
       <ion-card-title><span>Beskrivelse</span></ion-card-title>
-      <ion-card-subtitle> <span>Plattform: </span> {{ spot.platform }}</ion-card-subtitle>
-      <ion-card-subtitle><span>tilstand: </span> {{ spot.condition }}</ion-card-subtitle>
-      <ion-card-subtitle><span>Lokasjon: </span> {{ spot.city }}</ion-card-subtitle>
+      <ion-card-subtitle> <span>🕹</span> {{ spot.platform }}</ion-card-subtitle>
+      <ion-card-subtitle><span>🔁</span> {{ spot.condition }}</ion-card-subtitle>
+      <ion-card-subtitle><span>📍</span> {{ spot.city }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
 
