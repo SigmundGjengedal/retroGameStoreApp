@@ -25,7 +25,6 @@ import { presentToast } from "@/lib/utils";
 
 const saleItems = ref<ISaleItem[]>([]);
 const searchTerm = ref("");
-const searchResult = ref(null);
 const isLoggedInStatus = ref(false);
 
 /* lifeycle method */
